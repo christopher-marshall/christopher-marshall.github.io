@@ -21,3 +21,25 @@
   align-items: center;
   justify-content: center;
 }
+
+.heroIntro {
+  max-width: 44rem;
+  margin: 0 auto 1.5rem;
+}
+
+.section {
+  padding: 2.5rem 0 0;
+}
+
+.section:last-child {
+  padding-bottom: 3rem;
+}
+
+.job {
+  margin-bottom: 1.5rem;
+}
+
+.dates {
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.9rem;
+}
