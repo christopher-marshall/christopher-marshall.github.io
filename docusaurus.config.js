@@ -71,6 +71,20 @@ const config = {
       },
       footer: {
         style: 'dark',
+        links: [
+          {
+            label: 'Email',
+            href: 'mailto:christopher.marshall.works@gmail.com',
+          },
+          {
+            label: 'LinkedIn',
+            href: 'https://www.linkedin.com/in/christopher-marshall-957772a0/',
+          },
+          {
+            label: 'GitHub',
+            href: 'https://github.com/christopher-marshall',
+          },
+        ],
         copyright: `© ${new Date().getFullYear()} Christopher Marshall. Built with Docusaurus.`,
       },
       prism: {
