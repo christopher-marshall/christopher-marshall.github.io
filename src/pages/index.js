@@ -49,7 +49,7 @@ const Experience = [
   {
     role: 'Data Analytics Bootcamp',
     company: 'WBS Coding School',
-    dates: '2026',
+    dates: 'May 2026 – August 2026',
     summary:
       'Intensive training in SQL, Python, Tableau, and BigQuery, building data skills to complement my technical-writing practice.',
   },
