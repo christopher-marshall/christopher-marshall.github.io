@@ -1,6 +1,6 @@
 ---
 title: dochealth
-description: A Python tool and Streamlit dashboard that measures the health of a docs-as-code repository, one page at a time.
+description: A Python tool and Streamlit dashboard that measures the health of a docs-as-code repository.
 sidebar_position: 1
 ---
 
@@ -19,15 +19,15 @@ Per-page documentation health metrics for docs-as-code repositories.
 
 Documentation teams usually judge freshness by a page's last-modified date. That
 date is easy to move without improving anything: a typo fix, a link update, or a
-repository-wide formatting commit all make an old page look maintained.
+repository-wide formatting commit all make an old page appear well maintained.
 
-I wanted to know which pages in a docs set actually need a writer's attention,
-using only what a docs-as-code repository already records: the Git history and
+I wanted to know which pages in a docs set actually require attention,
+using information readily available to any docs-as-code repo: the Git history and
 the prose itself.
 
 ## What it does
 
-Point dochealth at a Git repository and a docs directory. It walks every `.md`
+Point dochealth at a docs repo and it walks every `.md`
 and `.mdx` page, reads the history and the text, and writes one CSV row per
 page. A Streamlit dashboard reads those CSVs back.
 
@@ -43,10 +43,9 @@ For each page it reports:
 | Who maintains it? | Commit and author counts |
 
 Pages that are too thin to judge, such as navigation stubs, are listed
-separately instead of being scored, because a stub and an abandoned page are
-different findings.
+separately instead of being scored.
 
-## What it found
+## What I found
 
 I ran it against two public docs sets: the Kubernetes concept pages (176 pages)
 and the Docusaurus documentation (94 pages).
@@ -57,6 +56,9 @@ and the Docusaurus documentation (94 pages).
 - **One housekeeping commit hid years of staleness.** A single `chore:` commit
   made 7 of 8 Docusaurus guide pages look 158 days old. Their last real content
   edit was up to 1,033 days earlier.
+- **Many poorly maintained pages are easy to overlook.** Staleness and readabaility rankings 
+  bury some pages because they don't score badly enough on either score individually. I set up a ratio 
+  to surface those pages that are in the lowest 25% of both staleness and reading difficulty.
 - **Readability scores measure markup unless you stop them.** One Kubernetes
   page scored −29 because leftover HTML formed a single 5,761-character
   "sentence". With the HTML stripped, the same page scores 34.6.
@@ -65,15 +67,17 @@ and the Docusaurus documentation (94 pages).
 
 ## Why there is no health score
 
-The obvious design is one number per page. I built that and then removed it.
+The obvious design is one number per page, or even one number scoring the 
+entire docs site. I built this, then decided against it.
 
-The weights behind a composite score could not be justified from the data, yet
-they decided which pages came out on top. Averaging percentile ranks also
-produced the same mean for every corpus, so the number said nothing about how
-one docs set compared with another.
+The weights behind a composite score couldn't be justified by the data. Too 
+many metrics cross-correlated and the few truly independent metrics didn't 
+say enough about the health of the docs set to warrant the score. 
+Averaging percentile ranks also produced the same mean for every corpus, 
+so the number said nothing about how one docs set compared with another.
 
 dochealth is a measuring instrument instead of a grader. It scores two things,
-staleness and readability, shows them separately, and presents everything else
+staleness and readability; shows them separately; and presents everything else
 as context. The full reasoning, including the approaches I tried and deleted, is
 in [DECISIONS.md](https://github.com/christopher-marshall/dochealth/blob/main/DECISIONS.md).
 
