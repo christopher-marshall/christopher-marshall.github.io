@@ -49,7 +49,7 @@ const Projects = [
   {
     title: 'dochealth',
     description:
-      'A Python tool and Streamlit dashboard that measures the health of a docs-as-code repository, one page at a time.',
+      'A Python tool and Streamlit dashboard to measure the health of any docs-as-code repository. The CLI reads the repo\'s Git history and parses each page to prose to show which pages look maintained but aren\'t.',
     to: '/docs/projects/dochealth',
     live: {label: 'Live dashboard', href: 'https://dochealth.streamlit.app/'},
   },
@@ -244,10 +244,6 @@ function FeaturedProject({title, description, to, live}) {
           </div>
           <div className="card__body">
             <p>{description}</p>
-            <p>
-              Dochealth reads any docs-as-code Git history and parses each page to prose to show which pages look
-              maintained but aren&apos;t.
-            </p>
           </div>
           <ProjectButtons to={to} live={live} />
         </div>
