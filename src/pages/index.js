@@ -49,14 +49,14 @@ const Projects = [
   {
     title: 'dochealth',
     description:
-      'A Python tool and Streamlit dashboard to measure the health of any docs-as-code repository. The CLI reads the repo\'s Git history and parses each page to prose to show which pages look maintained but aren\'t.',
+      'A Python tool and Streamlit dashboard to measure the health of any docs-as-code repository. The CLI reads the repo\'s Git history and parses each page to show which pages look maintained but aren\'t.',
     to: '/docs/projects/dochealth',
     live: {label: 'Live dashboard', href: 'https://dochealth.streamlit.app/'},
   },
   {
     title: 'Shoreline docs-as-code migration',
     description:
-      'A complete migration from Freshdesk to a Docusaurus site using Diátaxis principles.',
+      '200+ pages migrated solo in 12 months from Freshdesk to a Docusaurus site using Diátaxis principles.',
     to: '/docs/projects/shoreline',
     image: {src: '/img/shoreline/docusaurus-getting-started.png', alt: 'The Shoreline documentation getting-started page'},
     logo: {src: '/img/logos/shoreline-icon-white.png', alt: 'Shoreline Wind logo', color: '#2db9cf'},
@@ -127,7 +127,7 @@ const Experience = [
     company: 'Adjust',
     dates: 'December 2016 – December 2018',
     summary:
-      'Built a client-facing help center in Salesforce, set the style standards adopted across teams, and documented 10 major and 50+ minor feature releases.',
+      'Built a client-facing help centre in Salesforce, set the style standards adopted across teams, and documented 10 major and 50+ minor feature releases.',
     caseStudies: [
       {label: 'Help center launch', to: '/docs/projects/adjust-help-center'},
       {label: 'New features and APIs', to: '/docs/projects/adjust-new-features'},
