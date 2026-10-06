@@ -17,14 +17,65 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
+/* Dark mode: green-tinted near-black surfaces, with the green kept as an accent. */
 [data-theme='dark'] {
-  --ifm-color-primary: #28c46e;
-  --ifm-color-primary-dark: #24b063;
-  --ifm-color-primary-darker: #22a75e;
-  --ifm-color-primary-darkest: #1c894d;
-  --ifm-color-primary-light: #3eca7d;
-  --ifm-color-primary-lighter: #48cd84;
-  --ifm-color-primary-lightest: #69d69a;
+  --ifm-color-primary: #4ade80;
+  --ifm-color-primary-dark: #2bd96b;
+  --ifm-color-primary-darker: #25cf63;
+  --ifm-color-primary-darkest: #1eab52;
+  --ifm-color-primary-light: #69e395;
+  --ifm-color-primary-lighter: #73e59c;
+  --ifm-color-primary-lightest: #9cedb9;
+  --ifm-background-color: #0d1310;
+  --ifm-background-surface-color: #151d19;
+  --ifm-navbar-background-color: #111815;
+  --ifm-footer-background-color: #090d0b;
+  --ifm-toc-border-color: #24302a;
+  --ifm-color-emphasis-200: #24302a;
+  --ifm-color-emphasis-300: #33423a;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+/* A dark hero with white text instead of a solid block of the accent green. */
+[data-theme='dark'] .hero--primary {
+  --ifm-hero-background-color: #111815;
+  --ifm-hero-text-color: #fff;
+  background-image: radial-gradient(
+    ellipse at top,
+    rgba(74, 222, 128, 0.18),
+    transparent 65%
+  );
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+[data-theme='dark'] .footer--dark {
+  --ifm-footer-background-color: #090d0b;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+}
+
+[data-theme='dark'] .card {
+  border: 1px solid var(--ifm-color-emphasis-200);
+}
+
+/* Infima's secondary colour is near-white, which glares on a dark page. */
+[data-theme='dark'] .button--secondary {
+  --ifm-button-background-color: #1e2a24;
+  --ifm-button-border-color: #33423a;
+  color: #e6efe9;
+}
+
+[data-theme='dark'] .button--secondary:hover {
+  --ifm-button-background-color: #27362e;
+  --ifm-button-border-color: #415248;
+  color: #fff;
+}
+
+[data-theme='dark'] .badge--secondary {
+  background-color: #1a2520;
+  border-color: #2c3a33;
+  color: #d5e2da;
+}
+
+[data-theme='dark'] .badge--primary {
+  color: #0d1310;
 }
