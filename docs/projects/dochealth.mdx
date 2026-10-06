@@ -27,11 +27,11 @@ the prose itself.
 
 ## What it does
 
-Point dochealth at a docs repo and it walks every `.md`
-and `.mdx` page, reads the history and the text, and writes one CSV row per
-page. A Streamlit dashboard reads those CSVs back.
+Point the dochealth CLI at a docs repo and it passes every `.md`
+and `.mdx` page, reads the Git history and the text, and outputs one CSV row per
+page. A Streamlit dashboard displays the data from that output CSV.
 
-For each page it reports:
+For each page, dochealth reports:
 
 | Question | Metric |
 |---|---|
@@ -72,13 +72,17 @@ entire docs site. I built this, then decided against it.
 
 The weights behind a composite score couldn't be justified by the data. Too 
 many metrics cross-correlated and the few truly independent metrics didn't 
-say enough about the health of the docs set to warrant the score. 
-Averaging percentile ranks also produced the same mean for every corpus, 
-so the number said nothing about how one docs set compared with another.
+say enough about the health of the docs set to warrant the score.
 
-dochealth is a measuring instrument instead of a grader. It scores two things,
-staleness and readability; shows them separately; and presents everything else
-as context. The full reasoning, including the approaches I tried and deleted, is
+The only score that compares directly between doc sets is the Flesch score, 
+but even then, some docs sets score higher here simply because they demand more
+technical vocabulary.
+
+Ultimately, dochealth is a measuring instrument instead of a grader. It scores two things,
+staleness and readability; displays them separately; and presents everything else
+as context.
+
+The full reasoning, including the approaches I tried and deleted, is
 in [DECISIONS.md](https://github.com/christopher-marshall/dochealth/blob/main/DECISIONS.md).
 
 ## The dashboard
