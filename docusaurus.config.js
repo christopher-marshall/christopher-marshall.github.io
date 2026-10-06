@@ -7,6 +7,9 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
+// Site code from https://www.goatcounter.com (the part before .goatcounter.com)
+const goatcounterCode = 'christopher-marshall';
+
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Christopher Marshall',
@@ -29,6 +32,15 @@ const config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
+
+  scripts: [
+    {
+      src: 'https://gc.zgo.at/count.js',
+      async: true,
+      'data-goatcounter': `https://${goatcounterCode}.goatcounter.com/count`,
+    },
+  ],
+  clientModules: ['./src/clientModules/goatcounter.js'],
 
   presets: [
     [
