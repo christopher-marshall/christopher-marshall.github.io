@@ -6,7 +6,7 @@ sidebar_position: 1
 
 # dochealth
 
-Per-page documentation health metrics for docs-as-code repositories.
+Per-page health metrics for any docs-as-code repo.
 
 <div className="margin-bottom--md">
   <a className="button button--primary margin-right--sm" href="https://dochealth.streamlit.app/">Open the live dashboard</a>
@@ -25,9 +25,9 @@ I wanted to know which pages in a docs set actually require attention,
 using information readily available to any docs-as-code repo: the Git history and
 the prose itself.
 
-## What it does
+## How it works
 
-Point the dochealth CLI at a docs repo and it passes every `.md`
+Point the dochealth CLI at a docs repo and it runs over every `.md`
 and `.mdx` page, reads the Git history and the text, and outputs one CSV row per
 page. A Streamlit dashboard displays the data from that output CSV.
 
@@ -36,9 +36,9 @@ For each page, dochealth reports:
 | Question | Metric |
 |---|---|
 | When was this page last really edited? | Days since the last commit that changed lines, with housekeeping commits filtered out |
-| How old is the content itself? | Age of the page's median line, from `git blame` |
+| How old is the content itself? | Median line age, from `git blame` |
 | Has it changed since it was written? | Ratio of staleness to page age |
-| How hard is it to read? | Flesch reading ease, computed on reader-visible prose only |
+| How hard is it to read? | Flesch reading ease, computed on reader-visible prose |
 | What kind of page is it? | Word count, code-block density, and heading structure |
 | Who maintains it? | Commit and author counts |
 
@@ -47,56 +47,58 @@ separately instead of being scored.
 
 ## What I found
 
-I ran it against two public docs sets: the Kubernetes concept pages (176 pages)
+I tested the tool on two open-source docs sets: the Kubernetes concepts section (176 pages)
 and the Docusaurus documentation (94 pages).
 
-- **Pages that look maintained and aren't.** The Kubernetes page
-  `replicationcontroller.md` was edited 95 days before extraction. Its median
-  line was 3,422 days old.
-- **One housekeeping commit hid years of staleness.** A single `chore:` commit
+- **A lot of pages that look maintained aren't.** For example, the Kubernetes page
+  `replicationcontroller.md` was edited 95 days before extraction, but its median
+  line of content was 3,422 days old.
+- **Housekeeping commits can conceal widespread staleness.** A single `chore:` commit
   made 7 of 8 Docusaurus guide pages look 158 days old. Their last real content
   edit was up to 1,033 days earlier.
 - **Many poorly maintained pages are easy to overlook.** Staleness and readability rankings 
-  bury some pages because they don't score badly enough on either score individually. I set up a ratio 
-  to surface those pages that are in the lowest 25% of both staleness and reading difficulty.
-- **Readability scores measure markup unless you stop them.** One Kubernetes
+  bury some pages because they don't score badly enough on either measure individually. I set up a flag 
+  to surface those pages that score in the bottom 25% for both staleness and reading difficulty.
+- **Readability scores measure markup unless markup is stripped first.** One Kubernetes
   page scored −29 because leftover HTML formed a single 5,761-character
-  "sentence". With the HTML stripped, the same page scores 34.6.
-- **A single health score can't compare docs sets.** Two unrelated corpora both
-  averaged about 0.42, because percentile ranks fix the mean by construction.
+  "sentence". With the HTML stripped, the same page scored 34.6. The prose-stripping regex required 
+  significant work to reduce Markdown to only user-facing prose.
 
-## Why there is no health score
+## Health score
 
-The obvious design is one number per page, or even one number scoring the 
-entire docs site. I built this, then decided against it.
+The obvious design seemed to be one output number per page, or even one number scoring 
+the entire docs site. I built this, but as I continued working on the tool, I 
+gradually came to decide against it.
 
 The weights behind a composite score couldn't be justified by the data. Too 
 many metrics cross-correlated and the few truly independent metrics didn't 
-say enough about the health of the docs set to warrant the score.
+say enough about the health of the docs set to warrant the score. In fact, 
+it came down to just the Flesch score and page staleness, as commit count 
+and other metrics didn't have much to say about how well maintained a page actually is.
 
-The only score that compares directly between doc sets is the Flesch score, 
-but even then, some docs sets score higher here simply because they demand more
-technical vocabulary.
+A health score could also have been useful for comparing one docs set against another. 
+However, the only metric that can be compared directly between docs sets is the Flesch score, 
+and even then, some docs sets score worse simply because they demand more technical vocabulary, 
+not necessarily because they are poorly written.
 
-Ultimately, dochealth is a measuring instrument instead of a grader. It scores two things,
-staleness and readability; displays them separately; and presents everything else
+Ultimately, dochealth was better suited to being a measuring instrument rather than a grader. 
+It scores staleness and readability, displays them separately, and presents everything else
 as context.
 
-The full reasoning, including the approaches I tried and deleted, is
+My full reasoning process, including approaches that I attempted and abandoned, is
 in [DECISIONS.md](https://github.com/christopher-marshall/dochealth/blob/main/DECISIONS.md).
 
-## The dashboard
+## The Streamlit dashboard
+
+Streamlit provides a simple way to turn the output CSV into an interactive dashboard.
 
 The [live dashboard](https://dochealth.streamlit.app/) has five tabs:
 
-- **Overview**: the pages to review first, and readability against the published Flesch bands.
+- **Overview**: the most important pages to review and readability against the published Flesch bands.
 - **Staleness & authorship**: every page plotted against its own lifetime.
-- **Page detail**: one page's metrics placed against the rest of the corpus.
-- **Raw data**: the full table.
-- **Excluded pages**: the pages that were not scored, with a reason for each.
-
-Filters narrow what you look at, never what a page is measured against.
-Percentiles are always computed over the whole corpus.
+- **Page detail**: one page's metrics scored against the rest of the corpus.
+- **Raw data**: the full output table.
+- **Excluded pages**: the pages that were not scored and the reason why.
 
 ## How it's built
 
@@ -105,7 +107,7 @@ Percentiles are always computed over the whole corpus.
 - **pandas** for the per-page table and **textstat** for readability.
 - **Streamlit** and **Altair** for the dashboard, deployed on Streamlit Community Cloud.
 - **pytest** for the parsers, the scoring rules, and the dashboard itself, plus
-  an end-to-end check against a real clone.
+  an end-to-end check against two open-source repos.
 
 ```bash
 dochealth extract website content/en/docs/concepts \
